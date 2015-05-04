@@ -9,34 +9,27 @@ validateDataObjectOntologies {
 
   *Q1 = select COLL_NAME where COLL_NAME like '*Coll';
 
-#Loop over collections
+#Loop over collections 
 
   foreach(*R1 in *Q1) {
-
     *C = *R1.COLL_NAME;
+    *Q2 = select order_asc(META_COLL_ATTR_NAME) where COLL_NAME = '*C' and META_COLL_ATTR_UNITS = 'iRODSUserTagging:HIVE:VocabularyTerm';
 
-    *Q2 = select order_asc(META_COLL_ATTR_NAME) where COLL_NAME = '*C' and META_COLL_ATTR_UNIT = 'iRODSUserTagging:HIVE:VocabularyTerm';
+    *Q3 = select DATA_NAME where COLL_NAME = '*C';
 
     foreach (*R3 in *Q3) {
-
-   	*File = *R3.DATA_NAME;
-
+	*File = *R3.DATA_NAME;
+	writeLine("stdout","*File has *R3");
         *Q4 = select order_asc(META_DATA_ATTR_NAME) where COLL_NAME = '*C' and DATA_NAME = '*File' and META_DATA_ATTR_UNITS ='iRODSUserTagging:HIVE:VocabularyTerm';
 
         foreach(*R4 in *Q4) {
-
       	  *Name = *R4.META_DATA_ATTR_NAME;
-
           writeLine("stdout","*C/*File has *R4");
         }
-
     }
-
  }
-
 }
 
 INPUT null
-
 OUTPUT ruleExecOut
 
