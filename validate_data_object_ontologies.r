@@ -24,7 +24,11 @@ validateDataObjectOntologies {
 
         foreach(*R4 in *Q4) {
       	  *Name = *R4.META_DATA_ATTR_NAME;
-          writeLine("stdout","*C/*File has *R4");
+          writeLine("stdout","*C/*File has *R4 ... validating");
+	  *url = "http://localhost:8080/hive-voccabservice-rest-1.0-SNAPSHOT/rest/concept/uat/concept?uri=" ++  str(*Name);
+	  writeLine("stdout", "url is *url");
+	  msiCurlGetStr(*url, *outStr);
+          writeLine("stdout", *outStr);
         }
     }
  }
